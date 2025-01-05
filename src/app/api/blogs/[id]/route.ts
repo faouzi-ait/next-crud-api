@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { NextResponse, NextRequest } from "next/server";
 import { Types } from "mongoose";
 
