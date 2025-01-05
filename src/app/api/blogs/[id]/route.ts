@@ -4,14 +4,12 @@ import { Types } from "mongoose";
 import Blogs from "../../../lib/models/blogs";
 import connect from "../../../lib/db";
 
-export const GET = async (
-  request: NextRequest,
-  context: { params: { id: string } }
-) => {
+export const GET = async (request: NextRequest) => {
   try {
-    const blogId = context.params.id;
+    const { pathname } = request.nextUrl;
+    const blogId = pathname.split("/").pop();
 
-    if (!Types.ObjectId.isValid(blogId)) {
+    if (!blogId || !Types.ObjectId.isValid(blogId)) {
       return new NextResponse("Invalid Blog ID", { status: 400 });
     }
 
@@ -20,11 +18,13 @@ export const GET = async (
     const blog = await Blogs.findById(new Types.ObjectId(blogId)).lean();
 
     if (!blog) {
-      return new NextResponse("User not found", { status: 404 });
+      return new NextResponse("Blog not found", { status: 404 });
     }
 
     return new NextResponse(JSON.stringify(blog), { status: 200 });
-  } catch (error) {
-    return new NextResponse("Internal Server Error" + error, { status: 500 });
+  } catch (error: any) {
+    return new NextResponse("Internal Server Error: " + error.message, {
+      status: 500,
+    });
   }
 };
