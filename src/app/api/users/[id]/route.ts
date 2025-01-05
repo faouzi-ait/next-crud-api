@@ -1,21 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { NextResponse } from "next/server";
 import { Types } from "mongoose";
 
 import User from "../../../lib/models/users";
 import connect from "../../../lib/db";
 
-export const GET = async (
-  request: Request,
-  context: { params: { id: string } }
-) => {
+export const GET = async (request: Request) => {
   try {
-    const { params } = context;
-    const userId = params.id;
+    const { pathname } = new URL(request.url);
+    const userId = pathname.split("/").pop();
 
-    if (!Types.ObjectId.isValid(userId)) {
-      return new NextResponse("Invalid userId", { status: 400 });
+    if (!userId || !Types.ObjectId.isValid(userId)) {
+      return new NextResponse("Invalid or missing userId", { status: 400 });
     }
 
     await connect();
@@ -30,9 +26,7 @@ export const GET = async (
   } catch (error: any) {
     return new NextResponse(
       "Error retrieving the user data: " + error.message,
-      {
-        status: 500,
-      }
+      { status: 500 }
     );
   }
 };

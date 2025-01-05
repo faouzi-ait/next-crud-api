@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { NextResponse } from "next/server";
 import connect from "../../../../lib/db";
 import Blogs from "../../../../lib/models/blogs";
