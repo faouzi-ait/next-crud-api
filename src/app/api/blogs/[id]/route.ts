@@ -27,6 +27,6 @@ export const GET = async (
 
     return new NextResponse(JSON.stringify(blog), { status: 200 });
   } catch (error) {
-    return new NextResponse("Internal Server Error", { status: 500 });
+    return new NextResponse("Internal Server Error" + error, { status: 500 });
   }
 };
