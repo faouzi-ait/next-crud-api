@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
+/* eslint-disable */
 import { NextResponse, NextRequest } from "next/server";
 import { Types } from "mongoose";
 
