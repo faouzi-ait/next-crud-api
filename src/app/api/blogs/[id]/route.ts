@@ -8,10 +8,10 @@ import connect from "../../../lib/db";
 
 export const GET = async (
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) => {
   try {
-    const blogId = params.id;
+    const blogId = context.params.id;
 
     if (!Types.ObjectId.isValid(blogId)) {
       return new NextResponse("Invalid Blog ID", { status: 400 });
@@ -26,10 +26,7 @@ export const GET = async (
     }
 
     return new NextResponse(JSON.stringify(blog), { status: 200 });
-  } catch (error: any) {
-    return new NextResponse(
-      "Error retrieving the user data: " + error.message,
-      { status: 500 }
-    );
+  } catch (error) {
+    return new NextResponse("Internal Server Error", { status: 500 });
   }
 };

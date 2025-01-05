@@ -8,9 +8,10 @@ import connect from "../../../lib/db";
 
 export const GET = async (
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) => {
   try {
+    const { params } = context;
     const userId = params.id;
 
     if (!Types.ObjectId.isValid(userId)) {
