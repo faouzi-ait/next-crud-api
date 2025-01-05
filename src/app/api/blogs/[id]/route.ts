@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { NextResponse } from "next/server";
 import { Types } from "mongoose";
 
@@ -24,15 +26,8 @@ export const GET = async (
     }
 
     return new NextResponse(JSON.stringify(blog), { status: 200 });
-  } catch (error) {
-    return new NextResponse(
-      JSON.stringify({
-        message:
-          error instanceof Error ? error.message : "An unknown error occurred",
-      }),
-      {
-        status: 500,
-      }
-    );
+  } catch (error: any) {
+    return new NextResponse("Error retrieving the user data: " + error.message, { status: 500 });
   }
 };
+

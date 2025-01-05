@@ -1,12 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { Types } from "mongoose";
 import { NextResponse } from "next/server";
 
 import User from "../../lib/models/users";
 import connect from "../../lib/db";
-
-type ErrorType = {
-  error?: { message: string };
-};
 
 export const GET = async () => {
   try {
@@ -33,16 +31,10 @@ export const POST = async (request: Request) => {
         status: 201,
       }
     );
-  } catch (error) {
-    return new NextResponse(
-      JSON.stringify({
-        message:
-          error instanceof Error ? error.message : "An unknown error occurred",
-      }),
-      {
-        status: 500,
-      }
-    );
+  } catch (error: any) {
+    return new NextResponse("Error creating a new user" + error.message, {
+      status: 500,
+    });
   }
 };
 
@@ -71,16 +63,10 @@ export const PATCH = async (request: Request) => {
     );
 
     return new NextResponse(JSON.stringify(updatedUser), { status: 200 });
-  } catch (error) {
-    return new NextResponse(
-      JSON.stringify({
-        message:
-          error instanceof Error ? error.message : "An unknown error occurred",
-      }),
-      {
-        status: 500,
-      }
-    );
+  } catch (error: any) {
+    return new NextResponse("Error updating the user data " + error.message, {
+      status: 500,
+    });
   }
 };
 
@@ -109,15 +95,9 @@ export const DELETE = async (request: Request) => {
       "Deletion Successful" + JSON.stringify(deletedUser),
       { status: 200 }
     );
-  } catch (error) {
-    return new NextResponse(
-      JSON.stringify({
-        message:
-          error instanceof Error ? error.message : "An unknown error occurred",
-      }),
-      {
-        status: 500,
-      }
-    );
+  } catch (error: any) {
+    return new NextResponse("Error deleting the user data " + error.message, {
+      status: 500,
+    });
   }
 };

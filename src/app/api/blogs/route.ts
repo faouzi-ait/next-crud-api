@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { NextResponse } from "next/server";
 import { Types } from "mongoose";
 
@@ -71,16 +73,10 @@ export const POST = async (request: Request) => {
         status: 201,
       }
     );
-  } catch (error) {
-    return new NextResponse(
-      JSON.stringify({
-        message:
-          error instanceof Error ? error.message : "An unknown error occurred",
-      }),
-      {
-        status: 500,
-      }
-    );
+  } catch (error: any) {
+    return new NextResponse("Error creating a new user" + error.message, {
+      status: 500,
+    });
   }
 };
 
@@ -109,15 +105,9 @@ export const DELETE = async (request: Request) => {
       "Deletion Successful" + JSON.stringify(deletedBlog),
       { status: 200 }
     );
-  } catch (error) {
-    return new NextResponse(
-      JSON.stringify({
-        message:
-          error instanceof Error ? error.message : "An unknown error occurred",
-      }),
-      {
-        status: 500,
-      }
-    );
+  } catch (error: any) {
+    return new NextResponse("Error deleting the blog " + error.message, {
+      status: 500,
+    });
   }
 };
