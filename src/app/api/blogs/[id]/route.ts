@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { Types } from "mongoose";
 
 import Blogs from "../../../lib/models/blogs";
 import connect from "../../../lib/db";
 
 export const GET = async (
-  request: Request,
-  { params }: { params: { id: any } }
+  request: NextRequest,
+  { params }: { params: { id: string } }
 ) => {
   try {
     const blogId = params.id;
@@ -27,7 +27,9 @@ export const GET = async (
 
     return new NextResponse(JSON.stringify(blog), { status: 200 });
   } catch (error: any) {
-    return new NextResponse("Error retrieving the user data: " + error.message, { status: 500 });
+    return new NextResponse(
+      "Error retrieving the user data: " + error.message,
+      { status: 500 }
+    );
   }
 };
-
