@@ -1,3 +1,4 @@
+
 import mongoose from "mongoose";
 
 interface MongooseCache {
@@ -5,8 +6,9 @@ interface MongooseCache {
   promise: Promise<typeof mongoose> | null;
 }
 
+/* eslint-disable no-var */
 declare global {
-  let mongoose: MongooseCache;
+  var mongoose: MongooseCache | undefined;
 }
 
 const cached: MongooseCache = global.mongoose || { conn: null, promise: null };
@@ -30,6 +32,8 @@ async function connect() {
   }
 
   cached.conn = await cached.promise;
+  global.mongoose = cached;
+
   return cached.conn;
 }
 
