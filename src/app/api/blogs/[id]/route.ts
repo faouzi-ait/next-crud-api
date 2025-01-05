@@ -8,7 +8,7 @@ import connect from "../../../lib/db";
 
 export const GET = async (
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: any } }
 ) => {
   try {
     const blogId = params.id;
