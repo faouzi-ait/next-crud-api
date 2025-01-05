@@ -10,8 +10,6 @@ export const GET = async (
   try {
     const { id } = params;
 
-    console.log(id);
-
     if (!Types.ObjectId.isValid(id)) {
       return new NextResponse("Invalid userId", { status: 400 });
     }
@@ -25,10 +23,15 @@ export const GET = async (
     }
 
     return new NextResponse(JSON.stringify(blogs), { status: 200 });
-  } catch (error: any) {
-    console.error("Error retrieving blogs:", error);
-    return new NextResponse("Error retrieving the blogs: " + error.message, {
-      status: 500,
-    });
+  } catch (error) {
+    return new NextResponse(
+      JSON.stringify({
+        message:
+          error instanceof Error ? error.message : "An unknown error occurred",
+      }),
+      {
+        status: 500,
+      }
+    );
   }
 };
