@@ -1,23 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NextResponse } from "next/server";
-import connect from "../../../../lib/db";
-import Blogs from "../../../../lib/models/blogs";
+import { NextResponse, NextRequest } from "next/server";
 import { Types } from "mongoose";
 
-export const GET = async (
-  request: Request,
-  { params }: { params: { id: string } }
-) => {
-  try {
-    const { id } = params;
+import connect from "../../../../lib/db";
+import Blogs from "../../../../lib/models/blogs";
 
-    if (!Types.ObjectId.isValid(id)) {
+export const GET = async (request: NextRequest) => {
+  try {
+    const { pathname } = request.nextUrl;
+    const userId = pathname.split("/").slice(-2, -1)[0];
+
+    if (!Types.ObjectId.isValid(userId)) {
       return new NextResponse("Invalid userId", { status: 400 });
     }
 
     await connect();
 
-    const blogs = await Blogs.find({ user: id }).lean();
+    const blogs = await Blogs.find({ user: userId }).lean();
 
     if (blogs.length === 0) {
       return new NextResponse("No blogs found for this user", { status: 404 });
