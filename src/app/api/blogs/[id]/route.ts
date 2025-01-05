@@ -25,7 +25,14 @@ export const GET = async (
 
     return new NextResponse(JSON.stringify(blog), { status: 200 });
   } catch (error) {
-    return new NextResponse(JSON.stringify({ message: error instanceof Error ? error.message : "An unknown error occurred" }), {
-      status: 500,
-    });
+    return new NextResponse(
+      JSON.stringify({
+        message:
+          error instanceof Error ? error.message : "An unknown error occurred",
+      }),
+      {
+        status: 500,
+      }
+    );
+  }
 };
